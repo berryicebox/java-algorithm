@@ -24,25 +24,18 @@ public class SlidingWindow {
         int count = 0;
         int startIndex = 0;
         int endIndex = subLength;
-        int ACheck = 0;
-        int CCheck = 0;
-        int GCheck = 0;
-        int TCheck = 0;
+        long ACheck = 0;
+        long CCheck = 0;
+        long GCheck = 0;
+        long TCheck = 0;
 
-        while (endIndex != dnaLength) {
+        while (endIndex <= dnaLength) {
             String password = dna.substring(startIndex, endIndex);
 
-            for (int i = 0; i < subLength; i++) {
-                int ACount = password.indexOf("A", i);
-                int CCount = password.indexOf("C", i);
-                int GCount = password.indexOf("G", i);
-                int TCount = password.indexOf("T", i);
-
-                if (ACount >= 0) ACheck++;
-                if (CCount >= 0) CCheck++;
-                if (GCount >= 0) GCheck++;
-                if (TCount >= 0) TCheck++;
-            }
+            ACheck = password.chars().filter(word -> word == 'A').count();
+            CCheck = password.chars().filter(word -> word == 'C').count();
+            GCheck = password.chars().filter(word -> word == 'G').count();
+            TCheck = password.chars().filter(word -> word == 'T').count();
 
             if (ACheck >= A && CCheck >= C && GCheck >= G && TCheck >= T) {
                 count++;
