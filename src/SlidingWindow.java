@@ -4,69 +4,66 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 
-
 public class SlidingWindow {
-    static int myArr[];
-    static int checkArr[];
-    static int checkSecret;
+    static int myArray[];
+    static int validArray[];
+    static int checkPassword;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int S = Integer.parseInt(st.nextToken()); // DNA 길이
-        int P = Integer.parseInt(st.nextToken()); // 비밀번호 길이
-        int Result = 0; // 비밀번호로 사용 가능한 개수
-        myArr = new int[4]; // 나의 비밀번호 복잡도 검증에 사용할 배열
-        checkSecret = 0;
-        char A[] = br.readLine().toCharArray(); // 전체 DNA
+        int dnaLength = Integer.parseInt(st.nextToken());
+        int subLength = Integer.parseInt(st.nextToken());
+        checkPassword = 0;
+        int count = 0;
 
-        checkArr = new int[4]; // 제시된 비밀번호 검증용 숫자 배열
+        char DNA[] = br.readLine().toCharArray();
+
         st = new StringTokenizer(br.readLine());
-        for(int i=0; i<4; i++){
-            checkArr[i] = Integer.parseInt(st.nextToken());
-            if(checkArr[i] == 0){
-                checkSecret++;
-            }
+        myArray = new int[4];
+        validArray = new int[4];
+        for (int i = 0; i < 4; i++){
+            validArray[i] = Integer.parseInt(st.nextToken());
+            if (validArray[i] == 0) checkPassword++;
         }
 
-        // 첫번째 슬라이딩 윈도우
-        for (int i = 0; i< P; i++){
-            Add(A[i]);
-            // A의 i번째 char를 switch문으로 확인해 myArr과 checkArr을 대조하여 같으면 증가
+        // 첫번째 범위
+        for (int i = 0; i < subLength; i++) {
+            Add(DNA[i]);
         }
 
-        if(checkSecret == 4) Result++;
+        if (checkPassword == 4) count++;
 
-        // 이후 슬라이딩 윈도우
-        for(int i=P; i<S; i++) {
-            int j = i-P;
-            Add(A[i]);
-            Remove(A[j]);
-            if(checkSecret == 4) Result++;
+        // 슬라이딩 윈도우
+        for (int i = subLength; i < dnaLength; i++){
+            int j = i-subLength;
+            Add(DNA[i]);
+            Remove(DNA[j]);
+            if (checkPassword == 4) count++;
         }
 
-        System.out.println(Result);
+        System.out.println(count);
         br.close();
     }
 
     private static void Remove(char c) {
         switch (c){
             case 'A':
-                if (myArr[0] == checkArr[0]) checkSecret--;
-                myArr[0]--;
+                if (myArray[0] == validArray[0]) checkPassword--;
+                myArray[0]--;
                 break;
             case 'C':
-                if (myArr[1] == checkArr[1]) checkSecret--;
-                myArr[1]--;
+                if (myArray[1] == validArray[1]) checkPassword--;
+                myArray[1]--;
                 break;
             case 'G':
-                if (myArr[2] == checkArr[2]) checkSecret--;
-                myArr[2]--;
+                if (myArray[2] == validArray[2]) checkPassword--;
+                myArray[2]--;
                 break;
             case 'T':
-                if (myArr[3] == checkArr[3]) checkSecret--;
-                myArr[3]--;
+                if (myArray[3] == validArray[3]) checkPassword--;
+                myArray[3]--;
                 break;
         }
     }
@@ -74,20 +71,20 @@ public class SlidingWindow {
     private static void Add(char c) {
         switch (c){
             case 'A':
-                myArr[0]++;
-                if (myArr[0] == checkArr[0]) checkSecret++;
+                myArray[0]++;
+                if (myArray[0] == validArray[0]) checkPassword++;
                 break;
             case 'C':
-                myArr[1]++;
-                if (myArr[1] == checkArr[1]) checkSecret++;
+                myArray[1]++;
+                if (myArray[1] == validArray[1]) checkPassword++;
                 break;
             case 'G':
-                myArr[2]++;
-                if (myArr[2] == checkArr[2]) checkSecret++;
+                myArray[2]++;
+                if (myArray[2] == validArray[2]) checkPassword++;
                 break;
             case 'T':
-                myArr[3]++;
-                if (myArr[3] == checkArr[3]) checkSecret++;
+                myArray[3]++;
+                if (myArray[3] == validArray[3]) checkPassword++;
                 break;
         }
     }
