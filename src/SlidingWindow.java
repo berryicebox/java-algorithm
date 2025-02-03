@@ -32,10 +32,12 @@ public class SlidingWindow {
         while (endIndex <= dnaLength) {
             String password = dna.substring(startIndex, endIndex);
 
-            ACheck = password.chars().filter(word -> word == 'A').count();
-            CCheck = password.chars().filter(word -> word == 'C').count();
-            GCheck = password.chars().filter(word -> word == 'G').count();
-            TCheck = password.chars().filter(word -> word == 'T').count();
+            for (int i = 0; i < password.length(); i++){
+                if (password.charAt(i) == 'A') ACheck++;
+                if (password.charAt(i) == 'C') CCheck++;
+                if (password.charAt(i) == 'G') GCheck++;
+                if (password.charAt(i) == 'T') TCheck++;
+            }
 
             if (ACheck >= A && CCheck >= C && GCheck >= G && TCheck >= T) {
                 count++;
@@ -43,6 +45,7 @@ public class SlidingWindow {
 
             startIndex++;
             endIndex++;
+            ACheck = 0; CCheck = 0; GCheck = 0; TCheck = 0;
         }
 
         System.out.print(count);
